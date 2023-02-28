@@ -16,7 +16,7 @@ from models.build import build_yolo
 parser = argparse.ArgumentParser(description='YOLO Detection')
 parser.add_argument('-d', '--dataset', default='voc',
                     help='voc, coco-val.')
-parser.add_argument('--root', default='/mnt/share/ssd2/dataset',
+parser.add_argument('--root', default='/Volumes/Livion',
                     help='data root')
 parser.add_argument('-size', '--input_size', default=416, type=int,
                     help='输入图像尺寸')
@@ -120,7 +120,7 @@ def test(args, model, device, testset, transform, class_colors=None, class_names
             dataset_name=args.dataset
             )
         cv2.imshow('detection', img_processed)
-        cv2.waitKey(0)
+        # cv2.waitKey(0)
 
         # 保存可视化结果
         if args.save:

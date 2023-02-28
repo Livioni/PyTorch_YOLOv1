@@ -186,7 +186,7 @@ if __name__ == "__main__":
     img_size = 640
     pixel_mean = (0.406, 0.456, 0.485)  # BGR
     pixel_std = (0.225, 0.224, 0.229)   # BGR
-    data_root = 'D:\\python_work\\object-detection\\dataset\\VOCdevkit'
+    data_root = '/Volumes/Livion/VOCdevkit'
     train_transform = Augmentation(img_size, pixel_mean, pixel_std)
     val_transform = BaseTransform(img_size, pixel_mean, pixel_std)
 

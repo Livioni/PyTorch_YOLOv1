@@ -36,3 +36,10 @@ class SPP(nn.Module):
         y = torch.cat([x, x_1, x_2, x_3], dim=1)
 
         return y
+    
+
+if __name__ == '__main__':
+    x = torch.randn(2, 3, 416, 416)
+    model = SPP()
+    y = model(x)
+    print(y.shape)

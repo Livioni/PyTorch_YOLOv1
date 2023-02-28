@@ -239,5 +239,7 @@ if __name__=='__main__':
     model, feat_dim = build_resnet(model_name='resnet18', pretrained=True)
     print(model)
 
-    input = torch.randn(1, 3, 512, 512)
+    input = torch.randn(1, 3, 224, 224)
+    print("Input:", input.shape)
     output = model(input)
+    print("Output:", output.shape)

@@ -26,8 +26,8 @@ class myYOLO(nn.Module):
 
         # neck: SPP
         self.neck = nn.Sequential(
-            SPP(),
-            Conv(feat_dim*4, feat_dim, k=1),
+            SPP(), 
+            Conv(feat_dim*4, feat_dim, k=1), #1x1卷积，保存原有通道数，仍是13x13x512大小的特征图
         )
 
         # detection head
@@ -90,7 +90,7 @@ class myYOLO(nn.Module):
         pred[..., :2] = torch.sigmoid(pred[..., :2]) + self.grid_cell
         pred[..., 2:] = torch.exp(pred[..., 2:])
 
-        # 将所有bbox的中心带你坐标和宽高换算成x1y1x2y2形式
+        # 将所有bbox的中心带你坐标和宽高换算成x1y1x2y2形式 左上右下的点。
         output[..., :2] = pred[..., :2] * self.stride - pred[..., 2:] * 0.5
         output[..., 2:] = pred[..., :2] * self.stride + pred[..., 2:] * 0.5
         
@@ -153,7 +153,7 @@ class myYOLO(nn.Module):
         labels = labels[keep]
 
         # NMS
-        keep = np.zeros(len(bboxes), dtype=np.int)
+        keep = np.zeros(len(bboxes), dtype=np.int16)
         for i in range(self.num_classes):
             inds = np.where(labels == i)[0]
             if len(inds) == 0:
@@ -207,7 +207,7 @@ class myYOLO(nn.Module):
         scores = torch.sigmoid(conf_pred) * torch.softmax(cls_pred, dim=-1)
         
         # 解算边界框, 并归一化边界框: [H*W, 4]
-        bboxes = self.decode_boxes(txtytwth_pred) / self.input_size
+        bboxes = self.decode_boxes(txtytwth_pred) / self.input_size #归一化
         bboxes = torch.clamp(bboxes, 0., 1.)
         
         # 将预测放在cpu处理上，以便进行后处理
